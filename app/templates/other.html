@@ -6,59 +6,62 @@
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-6">
-        <table class="table table-bordered">
-          <caption>Engineers</caption>
-          <tr class="info">
-            <th><div class="smallText">Position</div></th>
-            <th><div class="smallText">Name</div></th>
-            <th><div class="smallText">Extension</div></th>
-            <th><div class="smallText">Idle</div></th>
-            <tr>
-              {% for result in fakeAgents %}
-              {% if result['queueName'] == "tier1" %}
-              <tr class="success" >
-                <td><div class="smallText">{{ loop.index }}</div></td>
-                <td><div class="smallText">{{ result['name'] }}</div></td>
-                <td><div class="smallText">{{ result['extension'] }}</div></td>
-                <td><div class="smallText">{{ result['idleTime'] }} </div></td>
-              </tr>
-              {% endif %}
-              {% endfor %}
-            </tr>
-          </table>
           <table class="table table-bordered">
-            <tr class="active">...</tr>
+            <caption>Engineers on Call</caption>
             <tr class="info">
-              <th>Position</th>
-              <th>Name</th>
-              <th>Caller Name</th>
-              <th>Caller Number</th>
-              <th>Duration</th>
+              <th><div class="smallText">Position</div></th>
+              <th><div class="smallText">Name</div></th>
+              <th><div class="smallText">Caller Name</div></th>
+              <th><div class="smallText">Caller Number</div></th>
+              <th><div class="smallText">Duration</div></th>
               <tr>
                 {% for result in data['calls'] %}
                 {% if result['queueName'] == "tier1" %}
                 <tr class="warning">
-                  <td>{{ loop.index }}</td>
-                  <td>{{ result['agentName'] }}</td>
-                  <td>{{ result['callername'] }}</td>
-                  <td>{{ result['callernum'] }} </td>
-                  <td>{{ result['duration'] }} </td>
+                  <td><div class="smallText">{{ loop.index }}</div></td>
+                  <td><div class="smallText">{{ result['agentName'] }}</div></td>
+                  <td><div class="smallText">{{ result['callername'] }}</div></td>
+                  <td><div class="smallText">{{ result['callernum'] }} </div></td>
+                  <td><div class="smallText">{{ result['duration'] }} </div></td>
                 </tr>
                 {% endif %}
                 {% endfor %}
               </tr>
             </tr>
           </table>
+          <table class="table table-bordered">
+            <caption>Engineers Idle</caption>
+            <tr class="info">
+              <th><div class="smallText">Position</div></th>
+              <th><div class="smallText">Name</div></th>
+              <th><div class="smallText">Extension</div></th>
+              <th><div class="smallText">Idle</div></th>
+              <tr>
+                {% for result in fakeAgents %}
+                {% if result['queueName'] == "tier1" %}
+                <tr class="success" >
+                  <td><div class="smallText">{{ loop.index }}</div></td>
+                  <td><div class="smallText">{{ result['name'] }}</div></td>
+                  <td><div class="smallText">{{ result['extension'] }}</div></td>
+                  <td><div class="smallText">{{ result['idleTime'] }} </div></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tr>
+            </table>
         </div>
 
         <div class="col-md-6">
           <div class="col-md-6">
-            <div class="customerWaiting">Max hold: <br>
+            <div class="customerWaitingText">Max hold: </div>
+              <div class="customerWaitingValue">
               {% if data['waiting'] %}
               {{ data['waiting'][0]['wait'] }}
               {% endif %}
             </div>
-            <div class="customerWaiting">Agents off-call: <br>
+            <br>
+            <div class="customerWaitingText">Agents off-call: </div>
+              <div class="customerWaitingValue">
               {% set counter = [0] %}
               {% for result in data['agents'] %}
               {% if result["queueName"] == "tier1" %}
@@ -69,28 +72,28 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="engineerFree"> Next on queue: <br> Fake Person
-              <img src="https://avatars1.githubusercontent.com/u/2021405" alt="Mountain View">
+            <div class="engineerFree"> Next on queue: <br>
+              <img src="{{ onTop }}" alt="First"><br>
+              <div id="topImgName">{{ fakeAgents[0]['name'] }} </div>
             </div>
-            {{ fakeAgents[0] }}
           </div>
           <div class="col-md-12">
             <table class="table table-bordered">
               <caption>Customers</caption>
               <tr class="info">
-                <th>Position</th>
-                <th>Caller Name</th>
-                <th>Caller Number</th>
-                <th>Wait Time </th>
+                <th><div class="smallText">Position</div></th>
+                <th><div class="smallText">Caller Name</div></th>
+                <th><div class="smallText">Caller Number</div></th>
+                <th><div class="smallText">Wait Time </div></th>
               </tr>
               {% set counter = [0] %}
               {% for result in data['waiting'] %}
               {% if counter.append(counter.pop() + 1) %}{% endif %} {# increment counter by 1 #}
               <tr class="active">
-                <td>{{ counter[0] }}</td>
-                <td>{{ result['callername'] }}</td>
-                <td>{{ result['callernum'] }}</td>
-                <td>{{ result['wait'] }} </td>
+                <td><div class="smallText">{{ counter[0] }}</div></td>
+                <td><div class="smallText">{{ result['callername'] }}</div></td>
+                <td><div class="smallText">{{ result['callernum'] }}</div></td>
+                <td><div class="smallText">{{ result['wait'] }} </div></td>
               </tr>
               {% endfor %}
             </table>
@@ -107,13 +110,7 @@
 
 
 </div>
-{{ data }}
-<br>
-ddd
-<br>
-{{ fakeAgents1 }}
-<br>
-{{ fakeAgents }}
+
 
 
 </body>

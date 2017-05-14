@@ -1,6 +1,7 @@
 import getQueueData
 import urllib2
 import json
+import extmap
 
 def fakeData():
     return getQueueData.getdata()
@@ -10,9 +11,6 @@ def realData():
     data = urllib2.urlopen("http://url/loaddata")
     dataAsDict = json.loads(data.read())
     return dataAsDict
-
-
-
 
 def processedFakeAgents():
     fakedata = fakeData()['agents']
@@ -32,3 +30,7 @@ def processedTier1RealAgents():
         if agent['queueName'] == "tier1":
             newlist.append(agent)
     return newlist
+
+def onTopQueue():
+    onTop = extmap.getTop(processedFakeAgents()[0]['extension'])
+    return onTop
