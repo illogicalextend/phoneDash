@@ -17,7 +17,6 @@ def processedFakeAgents():
     newlist = sorted(fakedata, key=lambda k: k['idleTime'])
     return newlist
 
-
 def processedRealAgents():
     realdata = realData()['agents']
     realdata.reverse()
@@ -32,5 +31,21 @@ def processedTier1RealAgents():
     return newlist
 
 def onTopQueue():
-    onTop = extmap.getTop(processedFakeAgents()[0]['extension'])
-    return onTop
+    for agent in processedRealAgents():
+        if agent['status'] == "Idle" and agent['queueName'] == "tier1":
+            return agent['extension']
+    #onTop = extmap.getTop(processedRealAgents()[0]['extension'])
+    #return onTop
+
+def onTopQueueName():
+    for agent in processedRealAgents():
+        if agent['status'] == "Idle" and agent['queueName'] == "tier1":
+            return agent['name']
+
+def agentFreeCount():
+    agentList = processedRealAgents()
+    count = 0
+    for agent in agentList:
+        #if agent['queueName'] == "tier1":
+        count = count + 1
+    return count
