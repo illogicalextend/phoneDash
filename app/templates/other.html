@@ -37,7 +37,7 @@
               <th><div class="smallText">Extension</div></th>
               <th><div class="smallText">Idle</div></th>
               <tr>
-                {% for result in fakeAgents %}
+                {% for result in agents %}
                 {% if result['queueName'] == "tier1" %}
                 <tr class="success" >
                   <td><div class="smallText">{{ loop.index }}</div></td>
@@ -74,7 +74,7 @@
           <div class="col-md-6">
             <div class="engineerFree"> Next on queue: <br>
               <img src="{{ onTop }}" alt="First"><br>
-              <div id="topImgName">{{ fakeAgents[0]['name'] }} </div>
+              <div id="topImgName">{{ agents[0]['name'] }} </div>
             </div>
           </div>
           <div class="col-md-12">

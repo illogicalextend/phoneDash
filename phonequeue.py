@@ -3,24 +3,22 @@ import urllib2
 import json
 import extmap
 
-def fakeData():
-    return getQueueData.getdata()
-
+# use fake local data when not querying prod queue.
+fake = True
 
 def realData():
-    data = urllib2.urlopen("http://url/loaddata")
-    dataAsDict = json.loads(data.read())
-    return dataAsDict
-
-def processedFakeAgents():
-    fakedata = fakeData()['agents']
-    newlist = sorted(fakedata, key=lambda k: k['idleTime'])
-    return newlist
+    if fake is True:
+        return getQueueData.getdata()
+    else:
+        data = urllib2.urlopen("http://url/loaddata")
+        dataAsDict = json.loads(data.read())
+        return dataAsDict
 
 def processedRealAgents():
     realdata = realData()['agents']
-    realdata.reverse()
-    return realdata
+    newlist = sorted(realdata, key=lambda k: k['idleTime'])
+    newlist.reverse()
+    return newlist
 
 def processedTier1RealAgents():
     newlist = []
@@ -33,7 +31,7 @@ def processedTier1RealAgents():
 def onTopQueue():
     for agent in processedRealAgents():
         if agent['status'] == "Idle" and agent['queueName'] == "tier1":
-            return agent['extension']
+            return extmap.getTop(agent['extension'])
     #onTop = extmap.getTop(processedRealAgents()[0]['extension'])
     #return onTop
 
@@ -46,6 +44,6 @@ def agentFreeCount():
     agentList = processedRealAgents()
     count = 0
     for agent in agentList:
-        #if agent['queueName'] == "tier1":
-        count = count + 1
+        if agent['queueName'] == "tier1":
+            count = count + 1
     return count
