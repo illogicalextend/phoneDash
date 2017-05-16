@@ -2,21 +2,30 @@ import getQueueData
 import urllib2
 import json
 import extmap
+import datetime
 
 # use fake local data when not querying prod queue.
-fake = True
+fake = False
 
 def realData():
     if fake is True:
         return getQueueData.getdata()
     else:
-        data = urllib2.urlopen("http://url/loaddata")
+        data = urllib2.urlopen("http://spbpbxmon02.amust.local/loaddata")
         dataAsDict = json.loads(data.read())
         return dataAsDict
 
 def processedRealAgents():
     realdata = realData()['agents']
+    for agent in realdata:
+        agent['idleTime'] = str(datetime.timedelta(seconds=agent['idleTime']))
     newlist = sorted(realdata, key=lambda k: k['idleTime'])
+    newlist.reverse()
+    return newlist
+
+def processedRealInbound():
+    realdata = realData()['calls']
+    newlist = sorted(realdata, key=lambda k: k['duration'])
     newlist.reverse()
     return newlist
 
@@ -44,6 +53,6 @@ def agentFreeCount():
     agentList = processedRealAgents()
     count = 0
     for agent in agentList:
-        if agent['queueName'] == "tier1":
+        if agent['queueName'] == "tier1" and agent['status'] == "Idle":
             count = count + 1
     return count

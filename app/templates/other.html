@@ -39,12 +39,14 @@
               <tr>
                 {% for result in agents %}
                 {% if result['queueName'] == "tier1" %}
+                {% if result['status'] == "Idle" %}
                 <tr class="success" >
                   <td><div class="smallText">{{ loop.index }}</div></td>
                   <td><div class="smallText">{{ result['name'] }}</div></td>
                   <td><div class="smallText">{{ result['extension'] }}</div></td>
                   <td><div class="smallText">{{ result['idleTime'] }} </div></td>
                 </tr>
+                {% endif %}
                 {% endif %}
                 {% endfor %}
               </tr>
@@ -57,24 +59,24 @@
               <div class="customerWaitingValue">
               {% if data['waiting'] %}
               {{ data['waiting'][0]['wait'] }}
+              {% else %}
+                0
               {% endif %}
             </div>
             <br>
             <div class="customerWaitingText">Agents off-call: </div>
               <div class="customerWaitingValue">
-              {% set counter = [0] %}
-              {% for result in data['agents'] %}
-              {% if result["queueName"] == "tier1" %}
-              {% if counter.append(counter.pop() + 1) %}{% endif %} {# increment counter by 1 #}
-              {% endif %}
-              {% endfor %}
-              {{ counter[0] }}
+                {{ agentFreeCount }}
             </div>
           </div>
           <div class="col-md-6">
             <div class="engineerFree"> Next on queue: <br>
+              {% if onTopName %}
               <img src="{{ onTop }}" alt="First"><br>
-              <div id="topImgName">{{ agents[0]['name'] }} </div>
+              <div id="topImgName">{{ onTopName }} </div>
+              {% else %}
+              q is empty
+              {% endif %}
             </div>
           </div>
           <div class="col-md-12">

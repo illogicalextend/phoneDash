@@ -10,4 +10,9 @@ def index():
 @app.route('/other')
 def other():
     #return render_template("other.html", data=phonequeue.fakeData(), fakeAgents=phonequeue.processedFakeAgents(), onTop=phonequeue.onTopQueue())
-    return render_template("other.html", data=phonequeue.realData(), agents=phonequeue.processedRealAgents(), onTop=phonequeue.onTopQueue(), onTopName=phonequeue.onTopQueueName(), agentFreeCount=phonequeue.agentFreeCount())
+    return render_template("other.html", data=phonequeue.realData(), \
+        agents=phonequeue.processedRealAgents(), \
+        onTop=phonequeue.onTopQueue(), \
+        onTopName=phonequeue.onTopQueueName(), \
+        agentFreeCount=phonequeue.agentFreeCount(), \
+        inbound=phonequeue.processedRealInbound())
