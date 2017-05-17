@@ -17,9 +17,20 @@ def realData():
 
 def processedRealAgents():
     realdata = realData()['agents']
-    for agent in realdata:
-        agent['idleTime'] = str(datetime.timedelta(seconds=agent['idleTime']))
-    newlist = sorted(realdata, key=lambda k: k['idleTime'])
+    # don't call timedelta if no agents present.
+    if realdata:
+        for agent in realdata:
+            agent['idleTime'] = str(datetime.timedelta(seconds=agent['idleTime']))
+        newlist = sorted(realdata, key=lambda k: k['idleTime'])
+        newlist.reverse()
+        return newlist
+
+def processedOnCalls():
+    calls = realData()['calls']
+    # don't call timedelta if no agents present.
+    for call in calls:
+        call['duration'] = str(datetime.timedelta(seconds=call['duration']))
+    newlist = sorted(calls, key=lambda k: k['duration'])
     newlist.reverse()
     return newlist
 

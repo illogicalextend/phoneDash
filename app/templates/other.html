@@ -15,7 +15,7 @@
               <th><div class="smallText">Caller Number</div></th>
               <th><div class="smallText">Duration</div></th>
               <tr>
-                {% for result in data['calls'] %}
+                {% for result in onCalls %}
                 {% if result['queueName'] == "tier1" %}
                 <tr class="warning">
                   <td><div class="smallText">{{ loop.index }}</div></td>
