@@ -57,11 +57,7 @@
           <div class="col-md-6">
             <div class="customerWaitingText">Max hold: </div>
               <div class="customerWaitingValue">
-              {% if data['waiting'] %}
-              {{ data['waiting'][0]['wait'] }}
-              {% else %}
-                0
-              {% endif %}
+                {{ topWait }}
             </div>
             <br>
             <div class="customerWaitingText">Agents off-call: </div>
@@ -70,7 +66,7 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="engineerFree"> Next on queue: <br>
+            <div class="engineerFree"> Next on queue: <br><br>
               {% if onTopName %}
               <img src="{{ onTop }}" alt="First"><br>
               <div id="topImgName">{{ onTopName }} </div>
@@ -106,14 +102,8 @@
         <br>
       </div>
     </div>
-
   </div>
-
-
-
 </div>
-
-
 
 </body>
 

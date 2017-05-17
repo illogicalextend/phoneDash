@@ -16,4 +16,5 @@ def other():
         onTopName=phonequeue.onTopQueueName(), \
         agentFreeCount=phonequeue.agentFreeCount(), \
         inbound=phonequeue.processedRealInbound(), \
-        onCalls=phonequeue.processedOnCalls())
+        onCalls=phonequeue.processedOnCalls(), \
+        topWait=phonequeue.topWait())

@@ -34,6 +34,12 @@ def processedOnCalls():
     newlist.reverse()
     return newlist
 
+def processedWaiting():
+    calls = realData()['waiting']
+    newlist = sorted(calls, key=lambda k: k['wait'])
+    newlist.reverse()
+    return newlist
+
 def processedRealInbound():
     realdata = realData()['calls']
     newlist = sorted(realdata, key=lambda k: k['duration'])
@@ -50,20 +56,29 @@ def processedTier1RealAgents():
 
 def onTopQueue():
     for agent in processedRealAgents():
-        if agent['status'] == "Idle" and agent['queueName'] == "tier1":
+        if (agent['status'] == "Idle" or agent['status'] == "Ringing") and agent['queueName'] == "tier1":
             return extmap.getTop(agent['extension'])
     #onTop = extmap.getTop(processedRealAgents()[0]['extension'])
     #return onTop
 
+def topWait():
+    # don't process timedelta if queue empty.
+    if processedWaiting():
+        wait = processedWaiting()[0]['wait']
+        return str(datetime.timedelta(seconds=wait))
+    else:
+        return "0"
+
+
 def onTopQueueName():
     for agent in processedRealAgents():
-        if agent['status'] == "Idle" and agent['queueName'] == "tier1":
+        if (agent['status'] == "Idle" or agent['status'] == "Ringing") and agent['queueName'] == "tier1":
             return agent['name']
 
 def agentFreeCount():
     agentList = processedRealAgents()
     count = 0
     for agent in agentList:
-        if agent['queueName'] == "tier1" and agent['status'] == "Idle":
+        if (agent['status'] == "Idle" or agent['status'] == "Ringing") and agent['queueName'] == "tier1":
             count = count + 1
     return count
