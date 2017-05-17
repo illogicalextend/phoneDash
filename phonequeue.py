@@ -40,12 +40,6 @@ def processedWaiting():
     newlist.reverse()
     return newlist
 
-def processedRealInbound():
-    realdata = realData()['calls']
-    newlist = sorted(realdata, key=lambda k: k['duration'])
-    newlist.reverse()
-    return newlist
-
 def processedTier1RealAgents():
     newlist = []
     realdata = realData()['agents']
@@ -63,8 +57,9 @@ def onTopQueue():
 
 def topWait():
     # don't process timedelta if queue empty.
-    if processedWaiting():
-        wait = processedWaiting()[0]['wait']
+    processed = processedWaiting()
+    if processed:
+        wait = processed[0]['wait']
         return str(datetime.timedelta(seconds=wait))
     else:
         return "0"
